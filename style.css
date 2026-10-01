@@ -1,0 +1,38 @@
+@font-face {
+	font-family: 'seven-segment';
+	src: url('seven-segment.ttf') format('truetype');
+	font-display: swap;
+}
+
+body {
+	display: block;
+	background-color: black;
+}
+
+.led-display {
+	width: 100%;
+	max-height: 600px;
+	aspect-ratio: 20 / 1;
+
+	background-color: #051405;
+	border: 4px solid gray;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	user-select: none;
+
+	font-family: 'seven-segment', monospace;
+	color: green;
+	font-size: 10vw;
+	letter-spacing: 2px;
+}
+
+.audio-only-player iframe {
+	width: 200px;
+	height: 112px;
+}
+
+p {	
+	margin: 0
+}

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Car Stereo YouTube Player</title>
+	<link rel="stylesheet" href="style.css">
+</head>
+<body>
+	<div class="led-display">
+		<p id="display-text">YOUTUBE</p>
+
+	</div>
+
+	<div class="controls">
+		<input type="text" id="yt-url" placeholder="Paste YouTube link here..." />
+		<button onclick="playAudio()">PLAY</button>
+	</div>
+
+	<div class="footer">
+		<a href="https://www.dafont.com/seven-segment.font">Font</a>
+	</div>
+
+	<div class="audio-only-player">
+		<iframe
+			id="yt-player"
+			src=""
+			allow="autoplay"
+			referrerpolicy="strict-origin-when-cross-origin"
+			frameborder="0">
+		</iframe>
+	</div>
+
+	<script>
+		function playAudio() {
+			// 1. Get Link
+			var url = document.getElementById('yt-url').value;
+			var displayText = document.getElementById('display-text');
+			var player = document.getElementById('yt-player');
+
+			// 2. Get Video ID
+			var videoId = url.split('v=')[1] || url.split('youtu.be/')[1];
+
+			if (videoId) {
+				// Cut off any & bits in link
+				videoId = videoId.split('&')[0];
+				
+				// Update Display Text
+				displayText.textContent = "PLAYING";
+
+				// Update Player Audio
+				player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&enablejsapi=1"
+			} else {
+				displayText.textContent = "ERROR";
+			}
+		}
+	</script>
+</body>
+</html>
