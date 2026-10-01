@@ -46,3 +46,4 @@ function stopAudio() {
 	player.src = "";
 
 	displayText.textContent = "STOPPED";
+}
