@@ -38,3 +38,11 @@ async function playAudio() {
 		displayText.textContent = "ERROR";
 	}
 }
+
+function stopAudio() {
+	var player = document.getElementById('yt-player');
+	var displayText = document.getElementById('yt-player');
+
+	player.src = "";
+
+	displayText.textContent = "STOPPED";
