@@ -42,7 +42,7 @@ async function playAudio() {
 function stopAudio() {
 	var player = document.getElementById('yt-player');
 	var displayText = document.getElementById('yt-player');
-
+	
 	player.src = "";
 
 	displayText.textContent = "STOPPED";
