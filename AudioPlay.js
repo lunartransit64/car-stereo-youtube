@@ -39,6 +39,7 @@ async function playAudio() {
 	}
 }
 
+// Stops the audio, but keeps it in memory
 function stopAudio() {
 	var player = document.getElementById('yt-player');
 	var displayText = document.getElementById('display-text');
@@ -47,3 +48,17 @@ function stopAudio() {
 
 	displayText.textContent = "STOPPED";
 }
+
+// Stops the audio and clears it from memory
+function clearAudio() {
+	stopAudio();
+
+	var urlInput = document.getElementById('yt-url');
+	if (urlInput) {
+		urlInput.value = "";
+	}
+
+	var displayText = document.getElementById('display-text';
+	displayText.textContent = "CLEARED";
+}
+	
