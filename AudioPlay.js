@@ -121,16 +121,25 @@ function setDisplayText(text) {
 	let index = 0;
 	displayText.textContent = text.substring(0, 14);
 
-	marqueeInterval = setInterval(() => {
-		index++;
+	const startScrolling = () => {
+		marqueeInterval = setInterval(() => {
+			index++;
 
-		if (index > text.length - 14) {
-			clearInterval(marqueeInterval);
-			return;
-		}
-		
-		displayText.textContent = text.substring(index, index + 14);
-	}, 300);
+			if (index > text.length - 14) {
+				clearInterval(marqueeInterval);
+
+				setTimeout(() => {
+					index = 0;
+					displayText.textContent = text.substring(0, 14);
+					startScrolling(); // Loop again
+				}, 1000);
+				
+				return;
+				}	
+			}
+			displayText.textContent = text.substring(index, index + 14);
+		}, 300);
+	};
 }
 	
 	
