@@ -85,7 +85,7 @@ function idleScreen() {
 			const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
 			const day = now.getDate();
 			const month = now.toLocaleString('en-us', { month: 'short' }).toUpperCase();
-			return `${hours}:${minutes}${ampm} - ${day} ${month}`;
+			return `${hours}:${minutes}${ampm}  ${day} ${month}`;
 		};
 
 		setDisplayText(formatTime(), true);
