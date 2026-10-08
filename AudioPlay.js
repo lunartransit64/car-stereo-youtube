@@ -36,7 +36,7 @@ async function playAudio() {
 		}
 	
 		// Update Player Audio
-		player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&enablejsapi=1"
+		player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&enablejsapi=1";
 
 	} else {
 		setDisplayText("ERROR");
@@ -88,7 +88,7 @@ function idleScreen() {
 			return `${hours}:${minutes}${ampm} - ${day} ${month}`;
 		};
 
-		setDisplayText(formatTime())
+		setDisplayText(formatTime());
 
 		// Rotate every 3 secomds
 		idleInterval = setInterval(() => {
