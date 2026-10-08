@@ -15,7 +15,7 @@ async function playAudio() {
 			
 	if (videoId) {
 		// Update Display Text
-		displayText.textContent = "READING...";
+		setDisplayText("READING...");
 				
 		// Wait 1 second as a delay
 		await wait(1000);
@@ -27,19 +27,19 @@ async function playAudio() {
 			var data = await response.json();
 
 			if (data.title) {
-				displayText.textContent = data.title.toUpperCase();
+				setDisplayText(data.title);
 			} else {
-				displayText.textContent = "PLAYING";
+				setDisplayText("PLAYING");
 			}
 		} catch (err) {
-			displayText.textContent = "PLAYING";
+			setDisplayText("ERROR NO TITLE");
 		}
 	
 		// Update Player Audio
 		player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&enablejsapi=1"
 
 	} else {
-		displayText.textContent = "ERROR";
+		setDisplayText("ERROR");
 		idleScreen();
 	}
 }
@@ -47,11 +47,9 @@ async function playAudio() {
 // Stops the audio, but keeps it in memory
 function stopAudio() {
 	var player = document.getElementById('yt-player');
-	var displayText = document.getElementById('display-text');
 	
 	player.src = "";
-
-	displayText.textContent = "STOPPED";
+	setDisplayText("STOPPED");
 }
 
 // Stops the audio and clears it from memory
@@ -62,10 +60,8 @@ function clearAudio() {
 	if (urlInput) {
 		urlInput.value = "";
 	}
-	
-	var displayText = document.getElementById('display-text');
-	displayText.textContent = "CLEARED";
 
+	setDisplayText("CLEARED");
 	idleScreen();
 }
 
@@ -78,7 +74,6 @@ function idleScreen() {
 	clearTimeout(idleTimer);
 	clearInterval(idleInterval);
 
-	var displayText = document.getElementById('display-text');
 	var showTime = true;
 
 	idleTimer = setTimeout(() => {
@@ -93,17 +88,52 @@ function idleScreen() {
 			return `${hours}:${minutes}${ampm} - ${day} ${month}`;
 		};
 
-		displayText.textContent = formatTime();
+		setDisplayText(formatTime())
 
 		// Rotate every 3 secomds
 		idleInterval = setInterval(() => {
 			showTime = !showTime;
-			displayText.textContent = showTime ? formatTime() : "ENTER URL";
+			setDisplayText(showTime ? formatTime() : "ENTER URL");
 		}, 3000);
 	}, 1000);
 }
 
 window.addEventListener('DOMContentLoaded', idleScreen);
+
+// Scrolling and Setting Text
+let marqueeInterval = null;
+
+function setDisplayText(text) {
+	clearInterval(marqueeInterval);
+	clearTimeout(idleTimer);
+	clearInterval(idleInterval);
+
+	var displayText = document.getElementById('display-text');
+	text = text.toUpperCase();
+
+	// 1. If under 14 characters, no scrolling
+	if (text.length <= 14) {
+		displayText.textContent = text;
+		return;
+	}
+
+	// 15+ characters scrolling
+	let index = 0;
+	displayText.textContent = text.substring(0, 14);
+
+	marqueeInterval = setInterval(() => {
+		index++;
+
+		if (index > text.length - 14) {
+			clearInterval(marqueeInterval);
+			return;
+		}
+		
+		displayText.textContent = text.substring(index, index + 14);
+	}, 300);
+}
+	
+	
 								   
 			
 	
