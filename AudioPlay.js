@@ -135,8 +135,7 @@ function setDisplayText(text) {
 				}, 1000);
 				
 				return;
-				}	
-			)};
+			}
 			displayText.textContent = text.substring(index, index + 14);
 		}, 300);
 	};
