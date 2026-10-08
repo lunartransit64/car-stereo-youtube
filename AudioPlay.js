@@ -58,7 +58,7 @@ function clearAudio() {
 		urlInput.value = "";
 	}
 
-	var displayText = document.getElementById('display-text';
+	var displayText = document.getElementById('display-text');
 	displayText.textContent = "CLEARED";
 }
 	
