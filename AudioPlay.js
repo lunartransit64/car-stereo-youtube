@@ -88,12 +88,12 @@ function idleScreen() {
 			return `${hours}:${minutes}${ampm} - ${day} ${month}`;
 		};
 
-		setDisplayText(formatTime());
+		setDisplayText(formatTime(), true);
 
 		// Rotate every 3 secomds
 		idleInterval = setInterval(() => {
 			showTime = !showTime;
-			setDisplayText(showTime ? formatTime() : "ENTER URL");
+			setDisplayText(showTime ? formatTime() : "ENTER URL", true);
 		}, 3000);
 	}, 1000);
 }
@@ -103,10 +103,13 @@ window.addEventListener('DOMContentLoaded', idleScreen);
 // Scrolling and Setting Text
 let marqueeInterval = null;
 
-function setDisplayText(text) {
+function setDisplayText(text, isIdle = false) {
 	clearInterval(marqueeInterval);
-	clearTimeout(idleTimer);
-	clearInterval(idleInterval);
+
+	if (!isIdle) {
+		clearTimeout(idleTimer);
+		clearInterval(idleInterval);
+	}
 
 	var displayText = document.getElementById('display-text');
 	text = text.toUpperCase();
@@ -139,6 +142,8 @@ function setDisplayText(text) {
 			displayText.textContent = text.substring(index, index + 14);
 		}, 300);
 	};
+
+	startScrolling();
 }
 	
 	
