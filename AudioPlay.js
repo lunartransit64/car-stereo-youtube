@@ -1,6 +1,10 @@
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 async function playAudio() {
+	// 0. Clear Values
+	clearTimeout(idleTimer);
+	clearInterval(idleInterval);
+	
 	// 1. Get Link
 	var url = document.getElementById('yt-url').value;
 	var displayText = document.getElementById('display-text');
@@ -36,6 +40,7 @@ async function playAudio() {
 
 	} else {
 		displayText.textContent = "ERROR";
+		idleScreen();
 	}
 }
 
@@ -57,8 +62,51 @@ function clearAudio() {
 	if (urlInput) {
 		urlInput.value = "";
 	}
-
+	
 	var displayText = document.getElementById('display-text');
 	displayText.textContent = "CLEARED";
+
+	idleScreen();
 }
+
+// Idle Screen
+let idleTimer = null;
+let idleInterval = null;
+
+function idleScreen() {
+	// Clear
+	clearTimeout(idleTimer);
+	clearInterval(idleInterval);
+
+	var displayText = document.getElementById('display-text');
+	var showTime = true;
+
+	idleTimer = setTimeout(() => {
+		// Format Current Time
+		const formatTime = () => {
+			const now = new Date();
+			let hours = now.getHours() % 12 || 12;
+			const minutes = String(now.getMinutes()).padStart(2, '0');
+			const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+			const day = now.getDate();
+			const month = now.toLocaleString('en-us', { month: 'short' }).toUpperCase();
+			return `${hours}:${minutes}${ampm} - ${day} ${month}`;
+		};
+
+		displayText.textContent = formatTime();
+
+		// Rotate every 3 secomds
+		idleInterval = setInterval(() => {
+			showTime = !showTime;
+			displayText.textContent = showTime ? formatTime() : "ENTER URL";
+		}, 3000);
+	}, 1000);
+}
+
+window.addEventListener('DOMContentLoaded', idleScreen);
+								   
+			
+	
+	
+	
 	
