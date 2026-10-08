@@ -102,10 +102,12 @@ window.addEventListener('DOMContentLoaded', idleScreen);
 
 // Scrolling and Setting Text
 let marqueeInterval = null;
+let marqueeTimer = null;
 
 function setDisplayText(text, isIdle = false) {
 	clearInterval(marqueeInterval);
-
+	clearTimeout(marqueeTimer);
+	
 	if (!isIdle) {
 		clearTimeout(idleTimer);
 		clearInterval(idleInterval);
@@ -134,7 +136,7 @@ function setDisplayText(text, isIdle = false) {
 				setTimeout(() => {
 					index = 0;
 					displayText.textContent = text.substring(0, 14);
-					startScrolling(); // Loop again
+					setTimeout(startScrolling, 2000); // Loop again
 				}, 1000);
 				
 				return;
@@ -143,7 +145,7 @@ function setDisplayText(text, isIdle = false) {
 		}, 300);
 	};
 
-	startScrolling();
+	marqueeTimer = setTimeout(startScrolling, 2000);
 }
 	
 	
