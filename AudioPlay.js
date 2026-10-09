@@ -74,7 +74,7 @@ function idleScreen() {
 	clearTimeout(idleTimer);
 	clearInterval(idleInterval);
 
-	var showTime = true;
+	var screenStep = 0;
 
 	idleTimer = setTimeout(() => {
 		// Format Current Time
@@ -83,18 +83,36 @@ function idleScreen() {
 			let hours = now.getHours() % 12 || 12;
 			const minutes = String(now.getMinutes()).padStart(2, '0');
 			const ampm = now.getHours() >= 12 ? 'PM' : 'AM';
+			return `${hours}:${minutes}${ampm}`;
+		};
+		
+		// Format Current Date
+		const formatDate = () => {
+			const now = new Date();
 			const day = now.getDate();
 			const month = now.toLocaleString('en-us', { month: 'short' }).toUpperCase();
-			return `${hours}:${minutes}${ampm}  ${day} ${month}`;
+			return `${day} ${month}`;
 		};
 
-		setDisplayText(formatTime(), true);
+		// Update Display with correct text
+		const updateDisplay = () => {
+			if (screenStep === 0) {
+				setDisplayText(formatTime(), true);
+			} else if (screenStep === 1) {
+				setDisplayText(formatDate(), true);
+			} else {
+				setDisplayText("ENTER URL", true);
+			}
+		}
 
-		// Rotate every 3 secomds
+		// Initial Load
+		updateDisplay();
+		
+		// Rotate every 2 secomds
 		idleInterval = setInterval(() => {
-			showTime = !showTime;
-			setDisplayText(showTime ? formatTime() : "ENTER URL", true);
-		}, 3000);
+			screenStep = (screenStep + 1) % 3;
+			updateDisplay()
+		}, 2000);
 	}, 1000);
 }
 
