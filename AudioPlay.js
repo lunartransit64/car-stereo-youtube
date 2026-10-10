@@ -1,23 +1,32 @@
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
-async function playAudio() {
-	// 0. Clear Values
-	clearTimeout(idleTimer);
-	clearInterval(idleInterval);
-	
+let playback = false;
+
+
+async function togglePlayPause() {
 	// 1. Get Link
 	var url = document.getElementById('yt-url').value;
-	var displayText = document.getElementById('display-text');
 	var player = document.getElementById('yt-player');
 
-	// 2. Get Video ID
+	if (playback) {
+		player.contentWindow.postMessage('{"event":"command","func":"pauseVideo","args":""}', '*');
+		playback = false;
+		setDisplayText("PAUSED");
+		return;
+	if (player.src && player.src.includes("youtube.com/embed/")) {
+		player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
+		playback = true;
+		clearTimeout(idleTimer);
+		clearTimeout(idleInterval);
+
+	// 2. Get Video ID if loading new video
 	var videoId = url.split('v=')[1] || url.split('youtu.be/')[1];
 			
 	if (videoId) {
+		// Update videoId
+		videoId = url.split('&')[0];
 		// Update Display Text
 		setDisplayText("READING...");
-				
-		// Wait 1 second as a delay
 		await wait(1000);
 				
 		// Update Display Text with Title
@@ -37,6 +46,7 @@ async function playAudio() {
 	
 		// Update Player Audio
 		player.src = "https://www.youtube.com/embed/" + videoId + "?autoplay=1&enablejsapi=1";
+		playback = true;
 
 	} else {
 		setDisplayText("ERROR");
