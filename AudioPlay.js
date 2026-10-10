@@ -13,18 +13,22 @@ async function togglePlayPause() {
 		playback = false;
 		setDisplayText("PAUSED");
 		return;
+	}
+	
 	if (player.src && player.src.includes("youtube.com/embed/")) {
 		player.contentWindow.postMessage('{"event":"command","func":"playVideo","args":""}', '*');
 		playback = true;
 		clearTimeout(idleTimer);
 		clearTimeout(idleInterval);
+		return;
+	}
 
 	// 2. Get Video ID if loading new video
 	var videoId = url.split('v=')[1] || url.split('youtu.be/')[1];
 			
 	if (videoId) {
 		// Update videoId
-		videoId = url.split('&')[0];
+		videoId = videoId.split('&')[0];
 		// Update Display Text
 		setDisplayText("READING...");
 		await wait(1000);
