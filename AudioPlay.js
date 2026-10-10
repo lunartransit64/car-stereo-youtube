@@ -1,7 +1,7 @@
 const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 let playback = false;
-
+let audioTitle = null;
 
 async function togglePlayPause() {
 	// 1. Get Link
@@ -20,6 +20,7 @@ async function togglePlayPause() {
 		playback = true;
 		clearTimeout(idleTimer);
 		clearTimeout(idleInterval);
+		setDisplayText(audioTitle);
 		return;
 	}
 
@@ -41,11 +42,14 @@ async function togglePlayPause() {
 
 			if (data.title) {
 				setDisplayText(data.title);
+				audioTitle = data.title
 			} else {
 				setDisplayText("PLAYING");
+				audioTitle = "PLAYING";
 			}
 		} catch (err) {
 			setDisplayText("ERROR NO TITLE");
+			audioTitle = "ERROR NO TITLE";
 		}
 	
 		// Update Player Audio
@@ -63,6 +67,7 @@ function stopAudio() {
 	var player = document.getElementById('yt-player');
 	
 	player.src = "";
+	playback = false;
 	setDisplayText("STOPPED");
 }
 
@@ -75,7 +80,8 @@ function clearAudio() {
 		urlInput.value = "";
 	}
 
-	setDisplayText("CLEARED");
+	playback = false;
+	setDisplayText("EJECTED");
 	idleScreen();
 }
 
